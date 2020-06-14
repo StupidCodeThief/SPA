@@ -5,6 +5,8 @@ const app = express();
 
 connectDb();
 
+app.use(express.json({ extended: false }));
+
 app.get("/", (req, res) => {
   res.send("Hello!");
 });
