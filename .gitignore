@@ -1,5 +1,5 @@
+/config
 mongo.txt
-node_modules
-config
+/node_modules
 
 
