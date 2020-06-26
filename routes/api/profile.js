@@ -9,7 +9,6 @@ const User = require("../../models/User");
 // @route GET api/profile
 // @desc Get all profile
 // @access Public
-
 router.get("/", async (req, res) => {
   try {
     const profiles = await Profile.find().populate("user", ["name", "avatar"]);
@@ -23,7 +22,6 @@ router.get("/", async (req, res) => {
 // @route GET api/profile/me
 // @desc Get users profile
 // @access Private
-
 router.get("/me", authMiddleware, async (req, res) => {
   try {
     const profile = await Profile.findOne({
@@ -44,7 +42,6 @@ router.get("/me", authMiddleware, async (req, res) => {
 // @route GET api/profile/user/:user_id
 // @desc Get profile by user_id
 // @access Public
-
 router.get("/user/:user_id", async (req, res) => {
   try {
     const profile = await Profile.findOne({
@@ -68,7 +65,6 @@ router.get("/user/:user_id", async (req, res) => {
 // @route POST api/profile
 // @desc create or update profile
 // @access Private
-
 router.post(
   "/",
   [
@@ -151,14 +147,85 @@ router.post(
 // @route DELETE api/profile/
 // @desc Delete profile & user
 // @access Private
-
 router.delete("/", authMiddleware, async (req, res) => {
   try {
     await Profile.findOneAndDelete({ user: req.user.id });
 
     await User.findOneAndDelete({ _id: req.user.id });
- 
+
     res.json({ msg: "User was successfully deleted" });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server error");
+  }
+});
+
+// @route PATCH api/profile/experience
+// @desc Add profile experience
+// @access Private
+router.patch(
+  "/experience",
+  [
+    authMiddleware,
+    [
+      check("title", "Title is required").not().isEmpty(),
+      check("company", "Company is required").not().isEmpty(),
+      check("from", "From is required").not().isEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const newExp = ({
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description,
+    } = req.body);
+
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+
+      profile.experience.unshift(newExp);
+
+      await profile.save();
+      res.json(profile);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Server error");
+    }
+  }
+);
+
+// @route DELETE api/profile/experience/:exp_id
+// @desc Delete profile experience
+// @access Private
+router.delete("/experience/:exp_id", authMiddleware, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    console.log(profile.experience[0].id.toString());
+    console.log(req.params.exp_id);
+
+    const removeIndex = profile.experience.findIndex(
+      (exp) => exp.id.toString() === req.params.exp_id
+    );
+
+    if (removeIndex === -1) {
+      return res.status(404).json({ msg: "Experience not found" });
+    }
+
+    profile.experience.splice(removeIndex, 1);
+
+    await profile.save();
+    res.json(profile);
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Server error");
