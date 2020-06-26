@@ -31,7 +31,7 @@ router.post(
     check("email", "Please include valid email").isEmail(),
     check(
       "password",
-      "Please emnter a password with 6 or more characters"
+      "Please enter a password with 6 or more characters"
     ).not().isEmpty(),
   ],
   async (req, res) => {
