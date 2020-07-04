@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-function Register() {
+import { setAlert } from "../../actions/alert";
+// import { profile_url } from "gravatar";
+
+function Register({ setAlert }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,7 +24,7 @@ function Register() {
     event.preventDefault();
 
     if (password !== passwordRepeat) {
-      console.log("Password do not math");
+      setAlert("Password do not match", "danger", 3000);
     } else {
       const newUser = {
         name,
@@ -103,4 +108,12 @@ function Register() {
   );
 }
 
-export default Register;
+Register.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = {
+  setAlert,
+};
+
+export default connect(null, mapDispatchToProps)(Register);
