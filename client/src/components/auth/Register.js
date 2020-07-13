@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { setAlert } from "../../actions/alert";
+import { register } from "../../actions/auth";
 // import { profile_url } from "gravatar";
 
-function Register({ setAlert }) {
+function Register({ setAlert, register }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -26,26 +26,7 @@ function Register({ setAlert }) {
     if (password !== passwordRepeat) {
       setAlert("Password do not match", "danger", 3000);
     } else {
-      const newUser = {
-        name,
-        email,
-        password,
-      };
-
-      try {
-        const config = {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        };
-
-        const body = JSON.stringify(newUser);
-
-        const res = await axios.post("/api/users", body, config);
-        console.log(res);
-      } catch (error) {
-        console.log(error);
-      }
+      register({ name, email, password });
     }
   };
 
@@ -110,10 +91,13 @@ function Register({ setAlert }) {
 
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
 };
+
 
 const mapDispatchToProps = {
   setAlert,
+  register,
 };
 
 export default connect(null, mapDispatchToProps)(Register);
