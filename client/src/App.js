@@ -9,8 +9,12 @@ import Navbar from "./components/layout/Navbar";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Alert from "./components/layout/Alert";
+import Dashboard from "./components/dashboard/Dashboard"
+
 import setAuthToken from "./utils/setAuthToken";
 import { loadUser } from "./actions/auth";
+import PrivateRoute from "./components/routing/PrivateRoute";
+
 
 import "./App.css";
 
@@ -31,8 +35,9 @@ function App() {
         <section className="container">
           <Alert />
           <Switch>
-            <Route exact path="/login" component={Login}></Route>
-            <Route exact path="/register" component={Register}></Route>
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
           </Switch>
         </section>
       </Router>

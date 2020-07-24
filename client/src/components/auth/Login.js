@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-function Login() {
+import { login } from "../../actions/auth";
+
+function Login({ login, isAuthenticated }) {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -16,40 +19,25 @@ function Login() {
   const onSubmit = async (event) => {
     event.preventDefault();
 
-    const newUser = {
-      email,
-      password,
-    };
-
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-
-      const body = JSON.stringify(newUser);
-
-      const res = await axios.post("/api/auth", body, config);
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
+    login({ email, password });
   };
+
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
+
   return (
     <section className="container">
-      <div className="alert alert-danger">Invalid credentials</div>
       <h1 className="large text-primary">Sign In</h1>
       <p className="lead">
         <i className="fas fa-user"></i> Sign into Your Account
       </p>
-      <form className="form" onSubmit={onSubmit}>
+      <form className="form" onSubmit={onSubmit} noValidate>
         <div className="form-group">
           <input
             type="email"
             placeholder="Email Address"
             name="email"
-            required
             value={email}
             onChange={onChange}
           />
@@ -72,4 +60,17 @@ function Login() {
   );
 }
 
-export default Login;
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+const mapDispatchToProps = {
+  login,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -7,7 +7,7 @@ import { setAlert } from "../../actions/alert";
 import { register } from "../../actions/auth";
 // import { profile_url } from "gravatar";
 
-function Register({ setAlert, register }) {
+function Register({ setAlert, register, isAuthenticated }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -29,6 +29,10 @@ function Register({ setAlert, register }) {
       register({ name, email, password });
     }
   };
+
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <section className="container">
@@ -92,12 +96,16 @@ function Register({ setAlert, register }) {
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
 
 const mapDispatchToProps = {
   setAlert,
   register,
 };
 
-export default connect(null, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
