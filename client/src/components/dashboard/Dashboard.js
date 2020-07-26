@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import Spinner from "../common/Spinner";
+import DashboardActions from "../dashboard/DashboardActions";
 
 import { getCurrentProfile } from "../../actions/profile";
 
@@ -21,19 +22,18 @@ function Dashboard({
     <>
       <h1 className="large text-primary">Dashboard</h1>
       <p className="lead">
-        <i className="fas fa-user"></i> {user && user.name}
+        <i className="fas fa-user"></i> Welcome {user && user.name}
       </p>
-      <div className="dash-buttons">
-        <Link to="/edit-profile" className="btn btn-light">
-          <i className="fas fa-user-circle text-primary"></i> Edit Profile
-        </Link>
-        <Link to="/add-experience" className="btn btn-light">
-          <i className="fab fa-black-tie text-primary"></i> Add Experience
-        </Link>
-        <Link to="/add-education" className="btn btn-light">
-          <i className="fas fa-graduation-cap text-primary"></i> Add Education
-        </Link>
-      </div>{" "}
+      {profile === null ? (
+        <>
+          <p>There is no profile for this user</p>
+          <Link to="/create-profile" className="btn btn-primary my-1">
+            Create profile
+          </Link>
+        </>
+      ) : (
+        <DashboardActions />
+      )}
     </>
   );
 }
