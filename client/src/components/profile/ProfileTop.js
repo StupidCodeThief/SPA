@@ -23,8 +23,8 @@ function ProfileTop({
         {location} at {location && <span>{location}</span>}
       </p>
       <div className="icons my-1">
-        {social.website ? (
-          <Link to={social.website} target="_blank" rel="noopener noreferrer">
+        {website ? (
+          <Link to={website} target="_blank" rel="noopener noreferrer">
             <i className="fas fa-globe fa-2x"></i>
           </Link>
         ) : null}

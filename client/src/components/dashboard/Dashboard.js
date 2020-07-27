@@ -4,9 +4,12 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import Spinner from "../common/Spinner";
-import DashboardActions from "../dashboard/DashboardActions";
-import Education from "../dashboard/Education";
-import Experience from "../dashboard/Experience";
+import DashboardActions from "./DashboardActions";
+import Education from "../profile/Education";
+import Experience from "../profile/Experience";
+import ProfileAbout from "../profile/ProfileAbout";
+import ProfileTop from "../profile/ProfileTop";
+import ProfileGithub from "../profile/ProfileGithub";
 
 import { getCurrentProfile } from "../../actions/profile";
 import { deleteAccount } from "../../actions/profile";
@@ -38,11 +41,18 @@ function Dashboard({
       ) : (
         <>
           <DashboardActions />
+          <div className="profile-grid my-1">
+            <ProfileTop profile={profile} />
+            <ProfileAbout profile={profile} />
+          </div>
           {profile.experience.length > 0 ? (
             <Experience experiences={profile.experience} />
           ) : null}
           {profile.education.length > 0 ? (
             <Education educations={profile.education} />
+          ) : null}
+          {profile.githubusername ? (
+            <ProfileGithub githubusername={profile.githubusername} />
           ) : null}
         </>
       )}

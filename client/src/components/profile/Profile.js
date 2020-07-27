@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 import Spinner from "../common/Spinner";
 import ProfileTop from "./ProfileTop";
 import ProfileAbout from "./ProfileAbout";
+import ProfileGithub from "./ProfileGithub";
+import Experience from "./Experience";
+import Education from "./Education";
 import { getProfileById } from "../../actions/profile";
 
 function Profile({
@@ -35,6 +38,15 @@ function Profile({
             <ProfileTop profile={profile} />
             <ProfileAbout profile={profile} />
           </div>
+          {profile.experience.length > 0 ? (
+            <Experience experiences={profile.experience} />
+          ) : null}
+          {profile.education.length > 0 ? (
+            <Education educations={profile.education} />
+          ) : null}
+          {profile.githubusername ? (
+            <ProfileGithub githubusername={profile.githubusername} />
+          ) : null}
         </>
       )}
     </>
