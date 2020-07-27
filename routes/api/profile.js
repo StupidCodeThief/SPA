@@ -7,6 +7,7 @@ const request = require("request");
 const Profile = require("../../models/Profile");
 const authMiddleware = require("../../middleware/auth");
 const User = require("../../models/User");
+const Post = require("../../models/Post");
 
 // @route GET api/profile
 // @desc Get all profile
@@ -152,7 +153,7 @@ router.post(
 router.delete("/", authMiddleware, async (req, res) => {
   try {
     await Profile.findOneAndDelete({ user: req.user.id });
-
+    await Post.deleteMany({ user: req.user.id });
     await User.findOneAndDelete({ _id: req.user.id });
 
     res.json({ msg: "User was successfully deleted" });

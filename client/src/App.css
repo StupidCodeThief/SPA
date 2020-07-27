@@ -407,10 +407,12 @@ button {
 
 .profile-exp {
   grid-area: exp;
+  margin-top: 1rem;
 }
 
 .profile-edu {
   grid-area: edu;
+  margin-top: 1rem;
 }
 
 .profile-exp h2,

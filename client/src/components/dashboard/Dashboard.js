@@ -5,11 +5,15 @@ import PropTypes from "prop-types";
 
 import Spinner from "../common/Spinner";
 import DashboardActions from "../dashboard/DashboardActions";
+import Education from "../dashboard/Education";
+import Experience from "../dashboard/Experience";
 
 import { getCurrentProfile } from "../../actions/profile";
+import { deleteAccount } from "../../actions/profile";
 
 function Dashboard({
   getCurrentProfile,
+  deleteAccount,
   profile: { profile, loading },
   auth: { user },
 }) {
@@ -32,19 +36,30 @@ function Dashboard({
           </Link>
         </>
       ) : (
-        <DashboardActions />
+        <>
+          <DashboardActions />
+          <Experience experiences={profile.experience} />
+          <Education educations={profile.education} />
+        </>
       )}
+      <div className="my-2">
+        <button className="btn btn-danger" onClick={deleteAccount}>
+          <i className="fas fa-user-minus"></i> Delete My Account
+        </button>
+      </div>
     </>
   );
 }
 
 Dashboard.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
+  deleteAccount: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = {
   getCurrentProfile,
+  deleteAccount,
 };
 
 const mapStateToProps = (state) => ({
