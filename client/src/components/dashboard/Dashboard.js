@@ -38,8 +38,12 @@ function Dashboard({
       ) : (
         <>
           <DashboardActions />
-          <Experience experiences={profile.experience} />
-          <Education educations={profile.education} />
+          {profile.experience.length > 0 ? (
+            <Experience experiences={profile.experience} />
+          ) : null}
+          {profile.education.length > 0 ? (
+            <Education educations={profile.education} />
+          ) : null}
         </>
       )}
       <div className="my-2">

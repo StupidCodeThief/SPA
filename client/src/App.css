@@ -403,6 +403,7 @@ button {
   align-items: center;
   justify-content: center;
   text-align: center;
+  flex-wrap: wrap;
 }
 
 .profile-exp {
