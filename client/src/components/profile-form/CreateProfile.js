@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -222,4 +222,4 @@ const mapDispatchToProps = {
     createProfile
 }
 
-export default connect(null, mapDispatchToProps)(withRouter(CreateProfile));
+export default connect(null, mapDispatchToProps)(CreateProfile);

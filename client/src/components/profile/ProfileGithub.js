@@ -5,7 +5,14 @@ import PropTypes from "prop-types";
 import Spinner from "../common/Spinner";
 import { getGithubRepos } from "../../actions/profile";
 
-function ProfileGithub({ getGithubRepos, githubusername, repos }) {
+function ProfileGithub({
+  getGithubRepos,
+  profile: {
+    repos,
+    loading,
+    profile: { githubusername },
+  },
+}) {
   useEffect(() => {
     getGithubRepos(githubusername);
   }, [getGithubRepos, githubusername]);
@@ -15,11 +22,11 @@ function ProfileGithub({ getGithubRepos, githubusername, repos }) {
       <h2 className="text-primary my-1">
         <i className="fab fa-github"></i> Github Repos
       </h2>
-      {repos.length === 0 ? (
+      {loading ? (
         <Spinner />
-      ) : (
+      ) : repos.length !== 0 ? (
         repos.map((repo) => (
-          <div className="repo bg-white p-1 my-1">
+          <div key={repo.id} className="repo bg-white p-1 my-1">
             <div>
               <h4>
                 <a
@@ -45,19 +52,20 @@ function ProfileGithub({ getGithubRepos, githubusername, repos }) {
             </div>
           </div>
         ))
+      ) : (
+        <p>No github repos found!</p>
       )}
     </div>
   );
 }
 
 ProfileGithub.propTypes = {
-  githubusername: PropTypes.string.isRequired,
   getGithubRepos: PropTypes.func.isRequired,
-  repos: PropTypes.array.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  repos: state.profile.repos,
+  profile: state.profile,
 });
 
 const mapDispatchTOProps = {

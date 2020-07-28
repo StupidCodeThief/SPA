@@ -52,7 +52,7 @@ function Dashboard({
             <Education educations={profile.education} />
           ) : null}
           {profile.githubusername ? (
-            <ProfileGithub githubusername={profile.githubusername} />
+            <ProfileGithub />
           ) : null}
         </>
       )}
