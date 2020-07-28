@@ -1,0 +1,6 @@
+{
+    "mongoURI": "mongodb+srv://Denis:NotPass2000@spatest-vhqbe.mongodb.net/mainDB?retryWrites=true&w=majority",
+    "jwtSecret": "weklxcmvvjbhfwc",
+    "githubId": "Iv1.86860ad985ff2055",
+    "githubSecret": "e002d644142931dacff28beba86e42311f38d129"
+  }

@@ -1,0 +1,7 @@
+mongo.txt
+/node_modules
+/client/node_modules
+/client/.gitignore
+config/default.json
+
+
